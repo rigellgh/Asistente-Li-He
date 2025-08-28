@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
         
-        /* Fondo con mapa mundi giratorio */
+        /* Fondo con mapa mundi giratorio - MÁS VISIBLE */
         .rotating-world {
             position: fixed;
             top: 50%;
@@ -35,9 +35,16 @@
             transform: translate(-50%, -50%);
             width: 1200px;
             height: 1200px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800"><circle cx="400" cy="400" r="350" fill="%230074a5" opacity="0.1"/><path d="M400,50 Q500,150 400,250 Q300,150 400,50 Z" fill="%2300a86b" opacity="0.15"/><path d="M200,200 Q300,250 400,200 Q500,250 600,200 Q550,300 600,400 Q550,500 600,600 Q500,550 400,600 Q300,550 200,600 Q250,500 200,400 Q250,300 200,200 Z" fill="%2300a86b" opacity="0.1"/><path d="M150,350 Q250,320 350,350 Q320,450 350,550 Q250,520 150,550 Q180,450 150,350 Z" fill="%230074a5" opacity="0.12"/><path d="M550,300 Q650,280 700,350 Q650,420 700,500 Q650,520 550,500 Q580,420 550,300 Z" fill="%230074a5" opacity="0.12"/><circle cx="400" cy="400" r="350" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></svg>');
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(0, 168, 204, 0.25) 0px, transparent 5px),
+                radial-gradient(circle at 70% 60%, rgba(0, 168, 204, 0.2) 0px, transparent 8px),
+                radial-gradient(circle at 40% 80%, rgba(100, 255, 218, 0.2) 0px, transparent 6px),
+                radial-gradient(circle at 80% 20%, rgba(0, 168, 204, 0.25) 0px, transparent 7px),
+                radial-gradient(circle at 20% 70%, rgba(100, 255, 218, 0.15) 0px, transparent 9px),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800"><circle cx="400" cy="400" r="350" fill="%230074a5" opacity="0.15"/><path d="M400,50 Q500,150 400,250 Q300,150 400,50 Z" fill="%2300a86b" opacity="0.2"/><path d="M200,200 Q300,250 400,200 Q500,250 600,200 Q550,300 600,400 Q550,500 600,600 Q500,550 400,600 Q300,550 200,600 Q250,500 200,400 Q250,300 200,200 Z" fill="%2300a86b" opacity="0.15"/><path d="M150,350 Q250,320 350,350 Q320,450 350,550 Q250,520 150,550 Q180,450 150,350 Z" fill="%230074a5" opacity="0.18"/><path d="M550,300 Q650,280 700,350 Q650,420 700,500 Q650,520 550,500 Q580,420 550,300 Z" fill="%230074a5" opacity="0.18"/><circle cx="400" cy="400" r="350" fill="none" stroke="%23ffffff" stroke-width="0.8" opacity="0.15"/></svg>');
             background-size: cover;
-            opacity: 0.4;
+            background-position: center;
+            opacity: 0.5;
             z-index: -1;
             animation: rotateWorld 120s linear infinite;
         }
@@ -298,14 +305,57 @@
             margin-left: auto;
         }
         
-        .chat-input {
-            display: flex;
-            padding: 20px;
+        .chat-input-container {
+            padding: 15px 20px;
             background: white;
             border-top: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
         }
         
-        .chat-input input {
+        .input-buttons {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .attach-button {
+            background: #f1f3f4;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.2s;
+        }
+        
+        .attach-button:hover {
+            background: #e6e8e9;
+            transform: scale(1.05);
+        }
+        
+        .attach-button i {
+            color: #5f6368;
+            font-size: 18px;
+        }
+        
+        .file-name {
+            font-size: 12px;
+            color: #5f6368;
+            margin-left: 10px;
+            display: none;
+            align-items: center;
+        }
+        
+        .chat-input-row {
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-input {
             flex: 1;
             padding: 15px;
             border: 1px solid #e0e0e0;
@@ -442,14 +492,23 @@
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot-message">
                     ¡Hola! Soy Li He, tu asistente para contratos internacionales. 😊<br>
-                    ¿En qué puedo ayudarte hoy?
+                    ¿En qué puedo ayudarte hoy? Puedes enviarme archivos para revisión.
                 </div>
             </div>
-            <div class="chat-input">
-                <input type="text" id="userInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
-                <button class="send-button" onclick="sendMessage()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+            <div class="chat-input-container">
+                <div class="input-buttons">
+                    <label for="fileInput" class="attach-button">
+                        <i class="fas fa-paperclip"></i>
+                    </label>
+                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)">
+                    <div class="file-name" id="fileName"></div>
+                </div>
+                <div class="chat-input-row">
+                    <input type="text" id="userInput" class="chat-input" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
+                    <button class="send-button" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -475,6 +534,40 @@
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
                 sendMessage();
+            }
+        }
+        
+        function handleFileSelect(event) {
+            const fileInput = event.target;
+            const fileNameDisplay = document.getElementById('fileName');
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                fileNameDisplay.textContent = file.name;
+                fileNameDisplay.style.display = 'flex';
+                
+                // Add a message about the file
+                const fileMessageElement = document.createElement('div');
+                fileMessageElement.classList.add('message', 'user-message');
+                fileMessageElement.textContent = `Archivo adjunto: ${file.name}`;
+                document.getElementById('chatMessages').appendChild(fileMessageElement);
+                
+                // Simulate bot response
+                setTimeout(() => {
+                    const botMessageElement = document.createElement('div');
+                    botMessageElement.classList.add('message', 'bot-message');
+                    botMessageElement.innerHTML = `He recibido tu archivo <strong>${file.name}</strong>. ¿Quieres que lo revise o analice algún aspecto en particular?`;
+                    
+                    document.getElementById('chatMessages').appendChild(botMessageElement);
+                    
+                    // Scroll to bottom
+                    const chatMessages = document.getElementById('chatMessages');
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                // Scroll to bottom
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
         
@@ -504,6 +597,8 @@
                         botMessageElement.innerHTML = 'Puedo ayudarte a verificar o subir contratos. ¿Qué tipo de contrato necesitas revisar?<br><br> - Contrato laboral<br> - Contrato comercial<br> - Contrato de confidencialidad';
                     } else if (message.toLowerCase().includes('gracias')) {
                         botMessageElement.innerHTML = '¡De nada! Estoy aquí para ayudarte. No dudes en preguntar si necesitas más asistencia con tus contratos. 😊';
+                    } else if (message.toLowerCase().includes('archivo') || message.toLowerCase().includes('adjuntar') || message.toLowerCase().includes('subir')) {
+                        botMessageElement.innerHTML = 'Puedes adjuntar archivos usando el botón de clip 📎. Soporto documentos PDF, Word y imágenes.';
                     } else {
                         botMessageElement.innerHTML = 'Gracias por tu mensaje. Como asistente de contratos internacionales, puedo ayudarte con:<br><br> - Verificación de documentos<br> - Revisión de cláusulas<br> - Análisis de términos contractuales<br><br>¿En qué te puedo asistir?';
                     }
