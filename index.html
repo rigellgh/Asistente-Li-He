@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente Li He - Contratos Internacionales</title>
+    <title>Chatbot Li He - Asistente de Contratos Internacionales</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -27,70 +27,59 @@
             overflow-x: hidden;
         }
         
-        /* Fondo con mapa mundial */
-        .world-map-bg {
+        /* Fondo con mapa mundi giratorio */
+        .rotating-world {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(41, 128, 185, 0.15) 0px, transparent 2px),
-                radial-gradient(circle at 40% 70%, rgba(52, 152, 219, 0.15) 0px, transparent 2px),
-                radial-gradient(circle at 60% 50%, rgba(52, 152, 219, 0.15) 0px, transparent 2px),
-                radial-gradient(circle at 80% 20%, rgba(41, 128, 185, 0.15) 0px, transparent 2px),
-                radial-gradient(circle at 30% 80%, rgba(52, 152, 219, 0.15) 0px, transparent 2px),
-                radial-gradient(circle at 70% 60%, rgba(41, 128, 185, 0.15) 0px, transparent 2px),
-                radial-gradient(circle at 25% 40%, rgba(52, 152, 219, 0.15) 0px, transparent 2px);
-            background-size: 400px 400px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1200px;
+            height: 1200px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800"><circle cx="400" cy="400" r="350" fill="%230074a5" opacity="0.1"/><path d="M400,50 Q500,150 400,250 Q300,150 400,50 Z" fill="%2300a86b" opacity="0.15"/><path d="M200,200 Q300,250 400,200 Q500,250 600,200 Q550,300 600,400 Q550,500 600,600 Q500,550 400,600 Q300,550 200,600 Q250,500 200,400 Q250,300 200,200 Z" fill="%2300a86b" opacity="0.1"/><path d="M150,350 Q250,320 350,350 Q320,450 350,550 Q250,520 150,550 Q180,450 150,350 Z" fill="%230074a5" opacity="0.12"/><path d="M550,300 Q650,280 700,350 Q650,420 700,500 Q650,520 550,500 Q580,420 550,300 Z" fill="%230074a5" opacity="0.12"/><circle cx="400" cy="400" r="350" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></svg>');
+            background-size: cover;
             opacity: 0.4;
             z-index: -1;
+            animation: rotateWorld 120s linear infinite;
         }
         
-        /* Líneas de conexión global */
-        .global-lines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.03) 50%),
-                linear-gradient(transparent 50%, rgba(255,255,255,0.03) 50%);
-            background-size: 50px 50px;
-            z-index: -1;
-            opacity: 0.3;
+        @keyframes rotateWorld {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
         
-        .content {
-            max-width: 800px;
-            padding: 40px;
+        .welcome-container {
+            max-width: 600px;
+            padding: 30px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
-            border-radius: 24px;
+            border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 1.5s ease-out;
         }
         
         .logo {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 25px;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
             background: linear-gradient(135deg, #64ffda, #00a8cc);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 55px;
+            font-size: 50px;
             color: white;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
         
         h1 {
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             margin-bottom: 15px;
             background: linear-gradient(to right, #64ffda, #00a8cc);
             -webkit-background-clip: text;
@@ -99,33 +88,32 @@
         }
         
         h2 {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
             color: #a8d8ea;
             font-weight: 400;
         }
         
         .tagline {
-            font-size: 2rem;
-            margin: 40px 0;
-            padding: 25px;
+            font-size: 1.8rem;
+            margin: 30px 0;
+            padding: 20px;
             background: rgba(0, 0, 0, 0.25);
-            border-radius: 18px;
+            border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             position: relative;
             display: inline-block;
             animation: pulse 3s infinite;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .arrow-container {
-            margin: 35px 0;
+            margin: 30px 0;
             position: relative;
             animation: bounce 2s infinite;
         }
         
         .arrow {
-            font-size: 4rem;
+            font-size: 3.5rem;
             color: #64ffda;
         }
         
@@ -133,15 +121,15 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            margin: 50px 0;
+            gap: 25px;
+            margin: 40px 0;
         }
         
         .feature {
             background: rgba(255, 255, 255, 0.08);
-            padding: 30px 25px;
-            border-radius: 18px;
-            width: 240px;
+            padding: 25px 20px;
+            border-radius: 15px;
+            width: 220px;
             backdrop-filter: blur(5px);
             transition: all 0.4s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -149,39 +137,39 @@
         }
         
         .feature:hover {
-            transform: translateY(-12px);
+            transform: translateY(-10px);
             box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
             background: rgba(255, 255, 255, 0.12);
         }
         
         .feature i {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
             color: #64ffda;
         }
         
         .feature h3 {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #e0f7fa;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
         
         .feature p {
             color: #b3e5fc;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-size: 1rem;
+            line-height: 1.5;
         }
         
         .chatbot-container {
             position: fixed;
-            bottom: 50px;
-            right: 50px;
+            bottom: 40px;
+            right: 40px;
             z-index: 1000;
         }
         
         .chatbot-button {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             background: linear-gradient(135deg, #64ffda, #00a8cc);
             border: none;
@@ -201,7 +189,7 @@
         }
         
         .chatbot-button i {
-            font-size: 40px;
+            font-size: 36px;
             color: white;
         }
         
@@ -225,12 +213,12 @@
         
         .chat-window {
             position: absolute;
-            bottom: 120px;
+            bottom: 110px;
             right: 0;
-            width: 400px;
-            height: 520px;
+            width: 380px;
+            height: 500px;
             background: white;
-            border-radius: 22px;
+            border-radius: 20px;
             box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
             display: none;
             flex-direction: column;
@@ -241,7 +229,7 @@
         .chat-header {
             background: linear-gradient(135deg, #64ffda, #00a8cc);
             color: white;
-            padding: 22px;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -249,7 +237,7 @@
         
         .chat-header h3 {
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             font-weight: 500;
@@ -258,18 +246,18 @@
         .chat-header h3:before {
             content: "";
             display: inline-block;
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             background: #4ade80;
             border-radius: 50%;
-            margin-right: 14px;
+            margin-right: 12px;
         }
         
         .close-button {
             background: none;
             border: none;
             color: white;
-            font-size: 2rem;
+            font-size: 1.8rem;
             cursor: pointer;
             transition: transform 0.2s;
         }
@@ -280,15 +268,15 @@
         
         .chat-messages {
             flex: 1;
-            padding: 22px;
+            padding: 20px;
             overflow-y: auto;
             background: #f5f7fb;
         }
         
         .message {
-            margin-bottom: 22px;
-            padding: 16px;
-            border-radius: 22px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 20px;
             max-width: 80%;
             word-wrap: break-word;
             line-height: 1.5;
@@ -312,19 +300,19 @@
         
         .chat-input {
             display: flex;
-            padding: 22px;
+            padding: 20px;
             background: white;
             border-top: 1px solid #e0e0e0;
         }
         
         .chat-input input {
             flex: 1;
-            padding: 16px;
+            padding: 15px;
             border: 1px solid #e0e0e0;
             border-radius: 30px;
             outline: none;
             margin-right: 15px;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .send-button {
@@ -332,8 +320,8 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -346,37 +334,37 @@
         }
         
         .send-button i {
-            font-size: 22px;
+            font-size: 20px;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-40px); }
+            from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-30px); }
+            40% { transform: translateY(-25px); }
             60% { transform: translateY(-15px); }
         }
         
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(100, 255, 218, 0); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(100, 255, 218, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
         }
         
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        @media (max-width: 900px) {
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.5rem; }
-            .tagline { font-size: 1.6rem; }
-            .content {
-                padding: 30px;
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.3rem; }
+            .tagline { font-size: 1.4rem; }
+            .welcome-container {
+                padding: 20px;
                 width: 95%;
             }
             .features {
@@ -385,28 +373,27 @@
             }
             .feature {
                 width: 100%;
-                max-width: 320px;
+                max-width: 300px;
             }
             .chat-window {
                 width: 90%;
                 right: 5%;
             }
             .chatbot-container {
-                bottom: 30px;
-                right: 30px;
+                bottom: 20px;
+                right: 20px;
             }
             .chatbot-button {
-                width: 85px;
-                height: 85px;
+                width: 80px;
+                height: 80px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="world-map-bg"></div>
-    <div class="global-lines"></div>
+    <div class="rotating-world"></div>
     
-    <div class="content">
+    <div class="welcome-container">
         <div class="logo">
             <i class="fas fa-globe-americas"></i>
         </div>
@@ -536,7 +523,15 @@
         
         // Initialize with animation
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.content').style.animation = 'fadeIn 1.5s ease-out';
+            document.querySelector('.welcome-container').style.animation = 'fadeIn 1.5s ease-out';
+        });
+        
+        // Efecto de paralaje para el fondo giratorio
+        document.addEventListener('mousemove', function(e) {
+            const rotatingWorld = document.querySelector('.rotating-world');
+            const x = (window.innerWidth - e.pageX) / 100;
+            const y = (window.innerHeight - e.pageY) / 100;
+            rotatingWorld.style.transform = `translate(-50%, -50%) rotate(${x + y}deg)`;
         });
     </script>
 </body>
