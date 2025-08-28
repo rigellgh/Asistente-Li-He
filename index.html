@@ -3,37 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente Li He</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Asistente Li He - Chatbot para Contratos</title>
+    <style>
+        /* ESTILOS CSS (TODO INCORPORADO) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-toggler {
+            position: fixed;
+            bottom: 30px;
+            right: 35px;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background: #2563EB;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-toggler:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-toggler .icon {
+            font-size: 1.5em;
+        }
+
+        .chatbot {
+            position: fixed;
+            bottom: 100px;
+            right: 35px;
+            width: 380px;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot header {
+            background: linear-gradient(135deg, #2563EB, #1e40af);
+            padding: 18px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .chatbot header h2 {
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #10B981;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .chatbox {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="rgba(255,255,255,0.1)"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="rgba(37, 99, 235, 0.1)" stroke-width="1"/></svg>');
+        }
+
+        .chat {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .chat.incoming {
+            background: #e5e7eb;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat.outgoing {
+            background: #2563EB;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .msg p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        .quick-buttons {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .quick-buttons button {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .quick-buttons button:hover {
+            transform: translateY(-2px);
+        }
+
+        .chat-input {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .chat-input textarea {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            resize: none;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input textarea:focus {
+            border-color: #2563EB;
+        }
+
+        #send-btn {
+            background: #2563EB;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background 0.3s ease;
+        }
+
+        #send-btn:hover {
+            background: #1e40af;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 500px) {
+            .chatbot {
+                width: 90%;
+                right: 5%;
+                bottom: 80px;
+            }
+            
+            .chatbot-toggler {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Botón flotante -->
+    <!-- Botón flotante para abrir/cerrar chat -->
     <button class="chatbot-toggler" onclick="toggleChatbot()">
-        <span>💬</span>
+        <span class="icon">💬</span>
     </button>
 
-    <!-- Ventana del chatbot -->
+    <!-- Ventana principal del chatbot -->
     <div class="chatbot">
+        <!-- Cabecera -->
         <header>
             <h2>Asistente Li He</h2>
-            <span class="status">En línea</span>
+            <span class="status">• En línea</span>
         </header>
+
+        <!-- Área de mensajes -->
         <div class="chatbox">
             <div class="chat incoming">
-                <p>¡Hola! Soy Li He, tu asistente para contratos internacionales 😊</p>
+                <div class="msg">
+                    <p>¡Hola! Soy Li He, tu asistente para contratos internacionales 😊</p>
+                    <p>¿En qué puedo ayudarte hoy?</p>
+                </div>
             </div>
         </div>
-        <div class="chat-input">
-            <textarea placeholder="Escribe tu mensaje..." required></textarea>
-            <button id="send-btn">Enviar</button>
-        </div>
+
+        <!-- Botones de acción rápida -->
         <div class="quick-buttons">
-            <button onclick="quickAction('translate')">Traducir término</button>
-            <button onclick="quickAction('verify')">Verificar contrato</button>
-            <button onclick="quickAction('upload')">Subir contrato</button>
+            <button onclick="quickAction('translate')">📝 Traducir término</button>
+            <button onclick="quickAction('verify')">🔍 Verificar contrato</button>
+            <button onclick="quickAction('upload')">📤 Subir contrato</button>
+        </div>
+
+        <!-- Área de entrada de texto -->
+        <div class="chat-input">
+            <textarea 
+                placeholder="Escribe tu mensaje aquí..." 
+                rows="1"
+                onkeypress="if(event.key === 'Enter') sendMessage()"
+            ></textarea>
+            <button id="send-btn" onclick="sendMessage()">➤</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- JAVASCRIPT INCORPORADO -->
+    <script>
+        // Función para abrir/cerrar el chatbot
+        function toggleChatbot() {
+            const chatbot = document.querySelector('.chatbot');
+            const isVisible = chatbot.style.display === 'flex';
+            chatbot.style.display = isVisible ? 'none' : 'flex';
+        }
+
+        // Función para agregar mensajes al chat
+        function addMessage(type, text) {
+            const chatbox = document.querySelector('.chatbox');
+            const chatDiv = document.createElement('div');
+            chatDiv.classList.add('chat', type);
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg');
+            msgDiv.innerHTML = `<p>${text}</p>`;
+            
+            chatDiv.appendChild(msgDiv);
+            chatbox.appendChild(chatDiv);
+            
+            // Scroll automático al último mensaje
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        // Función para enviar mensajes
+        function sendMessage() {
+            const textarea = document.querySelector('.chat-input textarea');
+            const message = textarea.value.trim();
+            
+            if (message) {
+                addMessage('outgoing', message);
+                textarea.value = '';
+                textarea.style.height = 'auto';
+                
+                // Simular respuesta del asistente
+                setTimeout(() => {
+                    const responses = [
+                        "Entendido. Estoy procesando tu solicitud...",
+                        "¡Claro! ¿Necesitas ayuda con algo más?",
+                        "Perfecto, ya estoy trabajando en ello."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage('incoming', randomResponse);
+                }, 1000);
+            }
+        }
+
+        // Función para acciones rápidas
+        function quickAction(action) {
+            if (action === 'translate') {
+                addMessage('outgoing', 'Quiero traducir un término legal');
+                addMessage('incoming', '¡Excelente! Escribe el término que necesitas traducir. Por ejemplo: "FOB", "CIF", "LC"');
+            } else if (action === 'verify') {
+                addMessage('outgoing', 'Necesito verificar un contrato');
+                addMessage('incoming', 'Próximamente podrás verificar contratos en blockchain. ¡Estamos trabajando en esta función!');
+            } else if (action === 'upload') {
+                addMessage('outgoing', 'Quiero subir un contrato');
+                addMessage('incoming', 'En la próxima versión podrás subir contratos para traducción automática. ¡Muy pronto!');
+            }
+        }
+
+        // Inicializar - Asegurar que el chat esté cerrado al inicio
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.chatbot').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
