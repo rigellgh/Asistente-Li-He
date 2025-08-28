@@ -1,0 +1,129 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Botón flotante para abrir el chat */
+.chatbot-toggler {
+    position: fixed;
+    bottom: 30px;
+    right: 35px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: #2563EB;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+/* Ventana del chatbot */
+.chatbot {
+    position: fixed;
+    bottom: 100px;
+    right: 35px;
+    width: 350px;
+    height: 500px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.95);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+/* Cabecera del chatbot */
+.chatbot header {
+    background: #2563EB;
+    padding: 16px;
+    text-align: center;
+    color: white;
+}
+
+.chatbot header h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.status {
+    background: #10B981;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+
+/* Área de mensajes */
+.chatbox {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat {
+    max-width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat.incoming {
+    background: #e5e7eb;
+    align-self: flex-start;
+}
+
+.chat.outgoing {
+    background: #2563EB;
+    color: white;
+    align-self: flex-end;
+}
+
+/* Área de entrada de texto */
+.chat-input {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 5px;
+}
+
+.chat-input textarea {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+#send-btn {
+    background: #10B981;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Botones rápidos */
+.quick-buttons {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.quick-buttons button {
+    background: #10B981;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}

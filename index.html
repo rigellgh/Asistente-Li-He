@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Li He</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Botón flotante -->
+    <button class="chatbot-toggler" onclick="toggleChatbot()">
+        <span>💬</span>
+    </button>
+
+    <!-- Ventana del chatbot -->
+    <div class="chatbot">
+        <header>
+            <h2>Asistente Li He</h2>
+            <span class="status">En línea</span>
+        </header>
+        <div class="chatbox">
+            <div class="chat incoming">
+                <p>¡Hola! Soy Li He, tu asistente para contratos internacionales 😊</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <textarea placeholder="Escribe tu mensaje..." required></textarea>
+            <button id="send-btn">Enviar</button>
+        </div>
+        <div class="quick-buttons">
+            <button onclick="quickAction('translate')">Traducir término</button>
+            <button onclick="quickAction('verify')">Verificar contrato</button>
+            <button onclick="quickAction('upload')">Subir contrato</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
