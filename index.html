@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
         
-        /* Fondo con mapa mundi giratorio - MÁS VISIBLE */
+        /* Mapa del mundo rotativo */
         .rotating-world {
             position: fixed;
             top: 50%;
@@ -41,12 +41,12 @@
                 radial-gradient(circle at 40% 80%, rgba(100, 255, 218, 0.2) 0px, transparent 6px),
                 radial-gradient(circle at 80% 20%, rgba(0, 168, 204, 0.25) 0px, transparent 7px),
                 radial-gradient(circle at 20% 70%, rgba(100, 255, 218, 0.15) 0px, transparent 9px),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800"><circle cx="400" cy="400" r="350" fill="%230074a5" opacity="0.15"/><path d="M400,50 Q500,150 400,250 Q300,150 400,50 Z" fill="%2300a86b" opacity="0.2"/><path d="M200,200 Q300,250 400,200 Q500,250 600,200 Q550,300 600,400 Q550,500 600,600 Q500,550 400,600 Q300,550 200,600 Q250,500 200,400 Q250,300 200,200 Z" fill="%2300a86b" opacity="0.15"/><path d="M150,350 Q250,320 350,350 Q320,450 350,550 Q250,520 150,550 Q180,450 150,350 Z" fill="%230074a5" opacity="0.18"/><path d="M550,300 Q650,280 700,350 Q650,420 700,500 Q650,520 550,500 Q580,420 550,300 Z" fill="%230074a5" opacity="0.18"/><circle cx="400" cy="400" r="350" fill="none" stroke="%23ffffff" stroke-width="0.8" opacity="0.15"/></svg>');
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000"><defs><radialGradient id="grad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%"><stop offset="0%" style="stop-color:rgb(0,120,180);stop-opacity:0.2" /><stop offset="100%" style="stop-color:rgb(0,80,120);stop-opacity:0.1" /></radialGradient></defs><circle cx="500" cy="500" r="450" fill="url(%23grad)"/><circle cx="500" cy="500" r="450" fill="none" stroke="rgb(0,150,200)" stroke-width="2" opacity="0.2"/><path d="M300,300 Q400,250 500,300 Q600,250 700,300 Q650,400 700,500 Q650,600 700,700 Q600,650 500,700 Q400,650 300,700 Q350,600 300,500 Q350,400 300,300 Z" fill="rgb(0,120,100)" opacity="0.25"/><path d="M200,400 Q250,350 300,400 Q350,350 400,400 Q370,500 400,600 Q350,650 300,600 Q250,650 200,600 Q230,500 200,400 Z" fill="rgb(0,150,150)" opacity="0.2"/><path d="M600,200 Q700,150 800,200 Q750,300 800,400 Q750,500 800,600 Q700,550 600,600 Q650,500 600,400 Q650,300 600,200 Z" fill="rgb(0,100,150)" opacity="0.2"/><path d="M350,500 Q450,450 550,500 Q500,600 550,700 Q450,650 350,700 Q400,600 350,500 Z" fill="rgb(0,160,120)" opacity="0.25"/><circle cx="500" cy="500" r="450" fill="none" stroke="rgb(100,255,218)" stroke-width="1" opacity="0.15"/></svg>');
             background-size: cover;
             background-position: center;
-            opacity: 0.5;
+            opacity: 0.6;
             z-index: -1;
-            animation: rotateWorld 120s linear infinite;
+            animation: rotateWorld 180s linear infinite;
         }
         
         @keyframes rotateWorld {
