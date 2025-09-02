@@ -27,47 +27,48 @@
             overflow-x: hidden;
         }
         
-        /* Mapa mundial con rotación */
+        /* Mapa mundial sin bordes - fondo fluido */
         .world-map {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 1200px;
-            height: 1200px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
-                radial-gradient(circle at 30% 30%, rgba(0, 168, 204, 0.25) 0px, transparent 5px),
-                radial-gradient(circle at 70% 60%, rgba(0, 168, 204, 0.2) 0px, transparent 8px),
-                radial-gradient(circle at 40% 80%, rgba(100, 255, 218, 0.2) 0px, transparent 6px),
-                radial-gradient(circle at 80% 20%, rgba(0, 168, 204, 0.25) 0px, transparent 7px),
-                radial-gradient(circle at 20% 70%, rgba(100, 255, 218, 0.15) 0px, transparent 9px),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500"><defs><linearGradient id="ocean" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23005c82;stop-opacity:0.3" /><stop offset="100%" style="stop-color:%23003b5c;stop-opacity:0.3" /></linearGradient><linearGradient id="land" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23175c33;stop-opacity:0.3" /><stop offset="100%" style="stop-color:%230d4024;stop-opacity:0.3" /></linearGradient></defs><rect width="1000" height="500" fill="url(%23ocean)"/><path d="M150,200 C200,150 250,180 300,200 C350,220 400,210 450,230 C500,250 550,240 600,260 C650,280 700,270 750,290 C800,310 850,300 850,300 L850,350 C800,340 750,350 700,330 C650,310 600,320 550,300 C500,280 450,290 400,270 C350,250 300,260 250,240 C200,220 150,230 150,230 Z" fill="url(%23land)"/><path d="M200,300 C250,280 300,290 350,310 C400,330 450,320 500,340 C550,360 600,350 650,370 C700,390 750,380 800,400 C820,410 830,400 830,400 L830,450 C780,440 730,450 680,430 C630,410 580,420 530,400 C480,380 430,390 380,370 C330,350 280,360 230,340 C210,330 200,320 200,320 Z" fill="url(%23land)"/><circle cx="300" cy="250" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="500" cy="280" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="700" cy="320" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="350" cy="350" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="600" cy="380" r="5" fill="%23ffffff" opacity="0.5"/></svg>');
+                radial-gradient(circle at 20% 30%, rgba(0, 168, 204, 0.15) 0px, transparent 10%),
+                radial-gradient(circle at 80% 70%, rgba(100, 255, 218, 0.1) 0px, transparent 15%),
+                radial-gradient(circle at 40% 80%, rgba(0, 168, 204, 0.12) 0px, transparent 12%),
+                radial-gradient(circle at 60% 20%, rgba(100, 255, 218, 0.1) 0px, transparent 18%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500"><defs><linearGradient id="ocean" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23005c82;stop-opacity:0.2" /><stop offset="100%" style="stop-color:%23003b5c;stop-opacity:0.2" /></linearGradient><linearGradient id="land" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23175c33;stop-opacity:0.2" /><stop offset="100%" style="stop-color:%230d4024;stop-opacity:0.2" /></linearGradient></defs><rect width="1000" height="500" fill="url(%23ocean)"/><path d="M150,200 C200,150 250,180 300,200 C350,220 400,210 450,230 C500,250 550,240 600,260 C650,280 700,270 750,290 C800,310 850,300 850,300 L850,350 C800,340 750,350 700,330 C650,310 600,320 550,300 C500,280 450,290 400,270 C350,250 300,260 250,240 C200,220 150,230 150,230 Z" fill="url(%23land)"/><path d="M200,300 C250,280 300,290 350,310 C400,330 450,320 500,340 C550,360 600,350 650,370 C700,390 750,380 800,400 C820,410 830,400 830,400 L830,450 C780,440 730,450 680,430 C630,410 580,420 530,400 C480,380 430,390 380,370 C330,350 280,360 230,340 C210,330 200,320 200,320 Z" fill="url(%23land)"/></svg>');
             background-size: cover;
             background-position: center;
-            opacity: 0.5;
+            opacity: 0.4;
             z-index: -1;
-            animation: rotateWorld 120s linear infinite;
+            animation: pulseBackground 30s ease-in-out infinite;
         }
         
-        @keyframes rotateWorld {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
+        @keyframes pulseBackground {
+            0%, 100% {
+                opacity: 0.4;
+                transform: scale(1);
             }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
+            50% {
+                opacity: 0.5;
+                transform: scale(1.02);
             }
         }
         
         .content {
             max-width: 900px;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
             border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             margin: 40px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 1.5s ease-out;
+            /* Eliminamos bordes y sombras para un fondo más fluido */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: none;
         }
         
         .profile-header {
@@ -88,8 +89,9 @@
             margin-bottom: 25px;
             font-size: 70px;
             color: white;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            /* Sin borde */
+            border: none;
         }
         
         h1 {
@@ -98,7 +100,7 @@
             background: linear-gradient(to right, #64ffda, #00a8cc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
         }
         
         h2 {
@@ -114,10 +116,11 @@
             margin-bottom: 40px;
             text-align: center;
             color: #e0f7fa;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.15);
             padding: 25px;
             border-radius: 15px;
-            border-left: 4px solid #64ffda;
+            /* Sin borde izquierdo */
+            border-left: none;
         }
         
         .services {
@@ -128,19 +131,20 @@
         }
         
         .service {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
             padding: 30px;
             border-radius: 18px;
             text-align: left;
             transition: all 0.4s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            /* Sin bordes */
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         
         .service:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
-            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.08);
         }
         
         .service h3 {
@@ -171,13 +175,14 @@
         }
         
         .language {
-            background: rgba(100, 255, 218, 0.1);
+            background: rgba(100, 255, 218, 0.08);
             padding: 12px 20px;
             border-radius: 50px;
             display: flex;
             align-items: center;
             gap: 10px;
-            border: 1px solid rgba(100, 255, 218, 0.3);
+            /* Sin bordes */
+            border: none;
         }
         
         .language i {
@@ -197,7 +202,7 @@
             border-radius: 50%;
             background: linear-gradient(135deg, #64ffda, #00a8cc);
             border: none;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -209,7 +214,7 @@
         
         .chatbot-button:hover {
             transform: scale(1.15);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
         
         .chatbot-button i {
@@ -241,13 +246,15 @@
             right: 0;
             width: 380px;
             height: 500px;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
             display: none;
             flex-direction: column;
             overflow: hidden;
             animation: slideUp 0.4s ease-out;
+            /* Sin bordes */
+            border: none;
         }
         
         .chat-header {
@@ -257,6 +264,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            /* Sin bordes */
+            border: none;
         }
         
         .chat-header h3 {
@@ -329,7 +338,7 @@
         
         .option-button {
             background: rgba(30, 136, 229, 0.1);
-            border: 1px solid rgba(30, 136, 229, 0.3);
+            border: 1px solid rgba(30, 136, 229, 0.2);
             border-radius: 18px;
             padding: 12px 15px;
             text-align: left;
@@ -347,9 +356,10 @@
         .chat-input-container {
             padding: 15px 20px;
             background: white;
-            border-top: 1px solid #e0e0e0;
             display: flex;
             flex-direction: column;
+            /* Sin borde superior */
+            border-top: none;
         }
         
         .input-buttons {
@@ -508,7 +518,7 @@
             
             <div class="service">
                 <h3><i class="fas fa-file-contract"></i> Revisor de Documentos</h3>
-                <p>Revisión profesional de contratos y documentos legales para garantizar precisión, coherencia y cumplimiento normativo en transacciones internacionales.</p>
+                <p>Revisión profesional de contratos and documentos legales para garantizar precisión, coherencia y cumplimiento normativo en transacciones internacionales.</p>
                 
                 <div class="languages">
                     <div class="language">
