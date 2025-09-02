@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
         
-        /* Mapa mundial real con rotación */
+        /* Mapa mundial con rotación */
         .world-map {
             position: fixed;
             top: 50%;
@@ -35,7 +35,13 @@
             transform: translate(-50%, -50%);
             width: 1200px;
             height: 1200px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500"><defs><linearGradient id="ocean" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23005c82;stop-opacity:0.3" /><stop offset="100%" style="stop-color:%23003b5c;stop-opacity:0.3" /></linearGradient><linearGradient id="land" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23175c33;stop-opacity:0.3" /><stop offset="100%" style="stop-color:%230d4024;stop-opacity:0.3" /></linearGradient></defs><rect width="1000" height="500" fill="url(%23ocean)"/><path d="M150,200 C200,150 250,180 300,200 C350,220 400,210 450,230 C500,250 550,240 600,260 C650,280 700,270 750,290 C800,310 850,300 850,300 L850,350 C800,340 750,350 700,330 C650,310 600,320 550,300 C500,280 450,290 400,270 C350,250 300,260 250,240 C200,220 150,230 150,230 Z" fill="url(%23land)"/><path d="M200,300 C250,280 300,290 350,310 C400,330 450,320 500,340 C550,360 600,350 650,370 C700,390 750,380 800,400 C820,410 830,400 830,400 L830,450 C780,440 730,450 680,430 C630,410 580,420 530,400 C480,380 430,390 380,370 C330,350 280,360 230,340 C210,330 200,320 200,320 Z" fill="url(%23land)"/><circle cx="300" cy="250" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="500" cy="280" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="700" cy="320" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="350" cy="350" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="600" cy="380" r="5" fill="%23ffffff" opacity="0.5"/></svg>');
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(0, 168, 204, 0.25) 0px, transparent 5px),
+                radial-gradient(circle at 70% 60%, rgba(0, 168, 204, 0.2) 0px, transparent 8px),
+                radial-gradient(circle at 40% 80%, rgba(100, 255, 218, 0.2) 0px, transparent 6px),
+                radial-gradient(circle at 80% 20%, rgba(0, 168, 204, 0.25) 0px, transparent 7px),
+                radial-gradient(circle at 20% 70%, rgba(100, 255, 218, 0.15) 0px, transparent 9px),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500"><defs><linearGradient id="ocean" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23005c82;stop-opacity:0.3" /><stop offset="100%" style="stop-color:%23003b5c;stop-opacity:0.3" /></linearGradient><linearGradient id="land" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23175c33;stop-opacity:0.3" /><stop offset="100%" style="stop-color:%230d4024;stop-opacity:0.3" /></linearGradient></defs><rect width="1000" height="500" fill="url(%23ocean)"/><path d="M150,200 C200,150 250,180 300,200 C350,220 400,210 450,230 C500,250 550,240 600,260 C650,280 700,270 750,290 C800,310 850,300 850,300 L850,350 C800,340 750,350 700,330 C650,310 600,320 550,300 C500,280 450,290 400,270 C350,250 300,260 250,240 C200,220 150,230 150,230 Z" fill="url(%23land)"/><path d="M200,300 C250,280 300,290 350,310 C400,330 450,320 500,340 C550,360 600,350 650,370 C700,390 750,380 800,400 C820,410 830,400 830,400 L830,450 C780,440 730,450 680,430 C630,410 580,420 530,400 C480,380 430,390 380,370 C330,350 280,360 230,340 C210,330 200,320 200,320 Z" fill="url(%23land)"/><circle cx="300" cy="250" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="500" cy="280" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="700" cy="320" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="350" cy="350" r="5" fill="%23ffffff" opacity="0.5"/><circle cx="600" cy="380" r="5" fill="%23ffffff" opacity="0.5"/></svg>');
             background-size: cover;
             background-position: center;
             opacity: 0.5;
@@ -259,16 +265,14 @@
             display: flex;
             align-items: center;
             font-weight: 500;
+            gap: 10px;
         }
         
-        .chat-header h3:before {
-            content: "";
-            display: inline-block;
-            width: 12px;
-            height: 12px;
+        .status-indicator {
+            width: 10px;
+            height: 10px;
             background: #4ade80;
             border-radius: 50%;
-            margin-right: 12px;
         }
         
         .close-button {
@@ -314,6 +318,30 @@
             border-top-right-radius: 5px;
             align-self: flex-end;
             margin-left: auto;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .option-button {
+            background: rgba(30, 136, 229, 0.1);
+            border: 1px solid rgba(30, 136, 229, 0.3);
+            border-radius: 18px;
+            padding: 12px 15px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1565c0;
+            font-weight: 500;
+        }
+        
+        .option-button:hover {
+            background: rgba(30, 136, 229, 0.2);
+            transform: translateX(5px);
         }
         
         .chat-input-container {
@@ -508,7 +536,7 @@
         
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
-                <h3>Li He - Asistente Virtual</h3>
+                <h3><span class="status-indicator"></span>Li He - Asistente Virtual</h3>
                 <button class="close-button" onclick="toggleChat()">×</button>
             </div>
             <div class="chat-messages" id="chatMessages">
@@ -536,6 +564,10 @@
     </div>
 
     <script>
+        // Variables para el estado de la conversación
+        let currentFileName = '';
+        let awaitingLanguageChoice = false;
+        
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
             const notification = document.querySelector('.notification');
@@ -565,6 +597,7 @@
             
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
+                currentFileName = file.name;
                 fileNameDisplay.textContent = file.name;
                 fileNameDisplay.style.display = 'flex';
                 
@@ -578,9 +611,33 @@
                 setTimeout(() => {
                     const botMessageElement = document.createElement('div');
                     botMessageElement.classList.add('message', 'bot-message');
-                    botMessageElement.innerHTML = `He recibido tu archivo <strong>${file.name}</strong>. ¿Quieres que lo traduzca o revise en algún idioma específico?<br><br> - Inglés<br> - Español<br> - Chino mandarín`;
+                    botMessageElement.innerHTML = `He recibido tu archivo <strong>${file.name}</strong>. ¿Quieres que lo traduzca o revise en algún idioma específico?`;
                     
+                    // Add options
+                    const optionsContainer = document.createElement('div');
+                    optionsContainer.classList.add('options-container');
+                    
+                    const options = [
+                        { text: 'Inglés', action: 'processLanguageSelection("inglés")' },
+                        { text: 'Español', action: 'processLanguageSelection("español")' },
+                        { text: 'Chino mandarín', action: 'processLanguageSelection("chino mandarín")' }
+                    ];
+                    
+                    options.forEach(option => {
+                        const button = document.createElement('button');
+                        button.classList.add('option-button');
+                        button.textContent = option.text;
+                        button.onclick = function() {
+                            eval(option.action);
+                        };
+                        optionsContainer.appendChild(button);
+                    });
+                    
+                    botMessageElement.appendChild(optionsContainer);
                     document.getElementById('chatMessages').appendChild(botMessageElement);
+                    
+                    // Set state to awaiting language choice
+                    awaitingLanguageChoice = true;
                     
                     // Scroll to bottom
                     const chatMessages = document.getElementById('chatMessages');
@@ -591,6 +648,59 @@
                 const chatMessages = document.getElementById('chatMessages');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
+        }
+        
+        function processLanguageSelection(language) {
+            // Add user's language choice as a message
+            const userChoiceElement = document.createElement('div');
+            userChoiceElement.classList.add('message', 'user-message');
+            userChoiceElement.textContent = language.charAt(0).toUpperCase() + language.slice(1);
+            document.getElementById('chatMessages').appendChild(userChoiceElement);
+            
+            // Reset state
+            awaitingLanguageChoice = false;
+            
+            // Process the request
+            setTimeout(() => {
+                const botMessageElement = document.createElement('div');
+                botMessageElement.classList.add('message', 'bot-message');
+                
+                if (language.toLowerCase().includes('inglés') || language.toLowerCase() === 'english') {
+                    botMessageElement.innerHTML = `Perfecto. Comenzaré la traducción/revisión de <strong>${currentFileName}</strong> al inglés. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
+                } else if (language.toLowerCase().includes('español') || language.toLowerCase() === 'spanish') {
+                    botMessageElement.innerHTML = `Perfecto. Comenzaré la traducción/revisión de <strong>${currentFileName}</strong> al español. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
+                } else if (language.toLowerCase().includes('chino') || language.toLowerCase() === 'chinese') {
+                    botMessageElement.innerHTML = `Perfecto. Comenzaré la traducción/revisión de <strong>${currentFileName}</strong> al chino mandarín. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
+                } else {
+                    botMessageElement.innerHTML = `Procesaré tu archivo <strong>${currentFileName}</strong>. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
+                }
+                
+                document.getElementById('chatMessages').appendChild(botMessageElement);
+                
+                // Scroll to bottom
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate completion after a delay
+                setTimeout(() => {
+                    // Replace processing message with completion message
+                    const completionMessage = document.createElement('div');
+                    completionMessage.classList.add('message', 'bot-message');
+                    completionMessage.innerHTML = `¡Listo! He completado la traducción/revisión de <strong>${currentFileName}</strong> al ${language}. ¿Necesitas algo más?`;
+                    
+                    // Remove the processing message and add completion message
+                    chatMessages.removeChild(botMessageElement);
+                    chatMessages.appendChild(completionMessage);
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 3000);
+                
+            }, 1000);
+            
+            // Scroll to bottom
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
         function sendMessage() {
@@ -607,37 +717,48 @@
                 // Clear input
                 userInput.value = '';
                 
-                // Simulate bot response
-                setTimeout(() => {
-                    const botMessageElement = document.createElement('div');
-                    botMessageElement.classList.add('message', 'bot-message');
-                    
-                    // Simple response logic
-                    if (message.toLowerCase().includes('hola') || message.toLowerCase().includes('hi') || message.toLowerCase().includes('你好')) {
-                        botMessageElement.innerHTML = '¡Hola! ¿En qué puedo ayudarte con tus contratos internacionales?<br>Puedo ayudarte con traducción legal y revisión de documentos en inglés, español y chino mandarín.';
-                    } else if (message.toLowerCase().includes('traduc') || message.toLowerCase().includes('translate')) {
-                        botMessageElement.innerHTML = 'Puedo traducir documentos legales entre:<br><br> - Inglés ↔ Español<br> - Inglés ↔ Chino mandarín<br> - Español ↔ Chino mandarín<br><br>¿Qué tipo de documento necesitas traducir?';
-                    } else if (message.toLowerCase().includes('revisar') || message.toLowerCase().includes('review')) {
-                        botMessageElement.innerHTML = 'Puedo revisar contratos y documentos legales en:<br><br> - Inglés jurídico<br> - Español jurídico<br> - Chino mandarín jurídico<br><br>¿Qué documento te gustaría que revise?';
-                    } else if (message.toLowerCase().includes('contrato') || message.toLowerCase().includes('contract')) {
-                        botMessageElement.innerHTML = 'Puedo ayudarte con contratos internacionales. ¿Necesitas traducción, revisión o asesoramiento sobre algún contrato en específico?';
-                    } else if (message.toLowerCase().includes('gracias') || message.toLowerCase().includes('thank')) {
-                        botMessageElement.innerHTML = '¡De nada! Estoy aquí para ayudarte. No dudes en preguntar si necesitas más asistencia con tus documentos internacionales. 😊';
-                    } else {
-                        botMessageElement.innerHTML = 'Gracias por tu mensaje. Como asistente de contratos internacionales, puedo ayudarte con:<br><br> - Traducción legal (inglés, español, chino)<br> - Revisión de documentos<br> - Análisis de contratos internacionales<br><br>¿En qué te puedo asistir?';
-                    }
-                    
-                    document.getElementById('chatMessages').appendChild(botMessageElement);
-                    
-                    // Scroll to bottom
-                    const chatMessages = document.getElementById('chatMessages');
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 1000);
+                // Process message based on current state
+                if (awaitingLanguageChoice) {
+                    // Assume the message is a language choice
+                    processLanguageSelection(message);
+                } else {
+                    // Default response
+                    simulateBotResponse(message);
+                }
                 
                 // Scroll to bottom
                 const chatMessages = document.getElementById('chatMessages');
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
+        }
+        
+        function simulateBotResponse(message) {
+            // Simulate bot response
+            setTimeout(() => {
+                const botMessageElement = document.createElement('div');
+                botMessageElement.classList.add('message', 'bot-message');
+                
+                // Simple response logic
+                if (message.toLowerCase().includes('hola') || message.toLowerCase().includes('hi') || message.toLowerCase().includes('你好')) {
+                    botMessageElement.innerHTML = '¡Hola! ¿En qué puedo ayudarte con tus contratos internacionales?<br>Puedo ayudarte con traducción legal y revisión de documentos en inglés, español y chino mandarín.';
+                } else if (message.toLowerCase().includes('traduc') || message.toLowerCase().includes('translate')) {
+                    botMessageElement.innerHTML = 'Puedo traducir documentos legales entre:<br><br> - Inglés ↔ Español<br> - Inglés ↔ Chino mandarín<br> - Español ↔ Chino mandarín<br><br>¿Qué tipo de documento necesitas traducir?';
+                } else if (message.toLowerCase().includes('revisar') || message.toLowerCase().includes('review')) {
+                    botMessageElement.innerHTML = 'Puedo revisar contratos y documentos legales en:<br><br> - Inglés jurídico<br> - Español jurídico<br> - Chino mandarín jurídico<br><br>¿Qué documento te gustaría que revise?';
+                } else if (message.toLowerCase().includes('contrato') || message.toLowerCase().includes('contract')) {
+                    botMessageElement.innerHTML = 'Puedo ayudarte con contratos internacionales. ¿Necesitas traducción, revisión o asesoramiento sobre algún contrato en específico?';
+                } else if (message.toLowerCase().includes('gracias') || message.toLowerCase().includes('thank')) {
+                    botMessageElement.innerHTML = '¡De nada! Estoy aquí para ayudarte. No dudes en preguntar si necesitas más asistencia con tus documentos internacionales. 😊';
+                } else {
+                    botMessageElement.innerHTML = 'Gracias por tu mensaje. Como asistente de contratos internacionales, puedo ayudarte con:<br><br> - Traducción legal (inglés, español, chino)<br> - Revisión de documentos<br> - Análisis de contratos internacionales<br><br>¿En qué te puedo asistir?';
+                }
+                
+                document.getElementById('chatMessages').appendChild(botMessageElement);
+                
+                // Scroll to bottom
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
         }
         
         // Initialize with animation
