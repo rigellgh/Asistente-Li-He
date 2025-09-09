@@ -27,7 +27,6 @@
             overflow-x: hidden;
         }
         
-        /* Mapa mundial sin bordes - fondo fluido */
         .world-map {
             position: fixed;
             top: 0;
@@ -66,7 +65,6 @@
             border-radius: 24px;
             margin: 40px 0;
             animation: fadeIn 1.5s ease-out;
-            /* Eliminamos bordes y sombras para un fondo más fluido */
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             border: none;
         }
@@ -90,7 +88,6 @@
             font-size: 70px;
             color: white;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            /* Sin borde */
             border: none;
         }
         
@@ -119,7 +116,6 @@
             background: rgba(0, 0, 0, 0.15);
             padding: 25px;
             border-radius: 15px;
-            /* Sin borde izquierdo */
             border-left: none;
         }
         
@@ -136,7 +132,6 @@
             border-radius: 18px;
             text-align: left;
             transition: all 0.4s ease;
-            /* Sin bordes */
             border: none;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
@@ -181,7 +176,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            /* Sin bordes */
             border: none;
         }
         
@@ -253,7 +247,6 @@
             flex-direction: column;
             overflow: hidden;
             animation: slideUp 0.4s ease-out;
-            /* Sin bordes */
             border: none;
         }
         
@@ -264,7 +257,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            /* Sin bordes */
             border: none;
         }
         
@@ -358,7 +350,6 @@
             background: white;
             display: flex;
             flex-direction: column;
-            /* Sin borde superior */
             border-top: none;
         }
         
@@ -436,6 +427,25 @@
             font-size: 20px;
         }
         
+        .verification-badge {
+            display: inline-block;
+            background: #4ade80;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .processing {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #5f6368;
+            font-style: italic;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-40px); }
             to { opacity: 1; transform: translateY(0); }
@@ -491,7 +501,7 @@
             <h2>Especialista en Contratos Internacionales</h2>
             
             <div class="intro">
-                <p>Asistencia especializada en contratos internacionales con servicios de traducción legal y revisión de documentos en inglés, español y chino mandarín.</p>
+                <p>Asistencia especializada en contratos internacionales con servicios de traducción legal, verificación de documentos y revisión de contratos en inglés, español y chino mandarín.</p>
             </div>
         </div>
         
@@ -517,21 +527,21 @@
             </div>
             
             <div class="service">
-                <h3><i class="fas fa-file-contract"></i> Revisor de Documentos</h3>
-                <p>Revisión profesional de contratos and documentos legales para garantizar precisión, coherencia y cumplimiento normativo en transacciones internacionales.</p>
+                <h3><i class="fas fa-file-contract"></i> Verificación de Contratos</h3>
+                <p>Verificación de autenticidad, validez legal y cumplimiento normativo de contratos internacionales mediante tecnología blockchain.</p>
                 
                 <div class="languages">
                     <div class="language">
                         <i class="fas fa-check-circle"></i>
-                        <span>Contratos en inglés</span>
+                        <span>Autenticidad documental</span>
                     </div>
                     <div class="language">
                         <i class="fas fa-check-circle"></i>
-                        <span>Contratos en español</span>
+                        <span>Validez legal</span>
                     </div>
                     <div class="language">
                         <i class="fas fa-check-circle"></i>
-                        <span>Contratos en chino mandarín</span>
+                        <span>Blockchain verification</span>
                     </div>
                 </div>
             </div>
@@ -552,7 +562,18 @@
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot-message">
                     ¡Hola! Soy Li He, tu asistente para contratos internacionales. 😊<br>
-                    ¿En qué puedo ayudarte hoy? Puedo ayudarte con traducción legal y revisión de documentos.
+                    ¿En qué puedo ayudarte hoy? Puedo ayudarte con:
+                    <div class="options-container">
+                        <button class="option-button" onclick="handleOptionClick('traduccion')">
+                            <i class="fas fa-language"></i> Traducción de documentos
+                        </button>
+                        <button class="option-button" onclick="handleOptionClick('verificacion')">
+                            <i class="fas fa-check-circle"></i> Verificación de contratos
+                        </button>
+                        <button class="option-button" onclick="handleOptionClick('terminos')">
+                            <i class="fas fa-gavel"></i> Explicación de términos legales
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="chat-input-container">
@@ -560,7 +581,7 @@
                     <label for="fileInput" class="attach-button">
                         <i class="fas fa-paperclip"></i>
                     </label>
-                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)">
+                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)" accept=".doc,.docx,.pdf,.txt">
                     <div class="file-name" id="fileName"></div>
                 </div>
                 <div class="chat-input-row">
@@ -576,7 +597,35 @@
     <script>
         // Variables para el estado de la conversación
         let currentFileName = '';
-        let awaitingLanguageChoice = false;
+        let currentFileType = '';
+        let conversationContext = {
+            awaitingLanguageChoice: false,
+            awaitingVerification: false,
+            awaitingTermExplanation: false,
+            currentService: null
+        };
+        
+        // Base de datos de términos legales
+        const legalTerms = {
+            'fob': {
+                es: 'FOB (Free On Board) - El vendedor entrega la mercancía a bordo del buque designado por el comprador.',
+                en: 'FOB (Free On Board) - The seller delivers the goods on board the vessel nominated by the buyer.',
+                zh: 'FOB (船上交货) - 卖方在买方指定的船上交付货物。',
+                examples: ['El precio es FOB puerto de Shanghai', 'Payment: FOB terms apply']
+            },
+            'cif': {
+                es: 'CIF (Cost, Insurance and Freight) - El vendedor paga el costo, seguro y flete hasta el puerto de destino.',
+                en: 'CIF (Cost, Insurance and Freight) - The seller pays costs, insurance, and freight to the destination port.',
+                zh: 'CIF (成本加保险费加运费) - 卖方支付至目的港的成本、保险和运费。',
+                examples: ['Precio CIF puerto de Valparaíso', 'Offer: CIF main port of destination']
+            },
+            'lc': {
+                es: 'LC (Letter of Credit) - Instrumento financiero que garantiza el pago al vendedor una vez cumplidos los términos.',
+                en: 'LC (Letter of Credit) - Financial instrument guaranteeing payment to the seller once terms are met.',
+                zh: 'LC (信用证) - 一旦条款满足即保证向卖方付款的金融工具。',
+                examples: ['Pago mediante LC irrevocable', 'Payment by confirmed LC required']
+            }
+        };
         
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
@@ -601,6 +650,23 @@
             }
         }
         
+        function handleOptionClick(option) {
+            switch(option) {
+                case 'traduccion':
+                    conversationContext.currentService = 'translation';
+                    addBotMessage('Perfecto. ¿Qué documento necesitas traducir? Puedes adjuntarlo usando el clip o describir lo que necesitas.');
+                    break;
+                case 'verificacion':
+                    conversationContext.currentService = 'verification';
+                    addBotMessage('Excelente. Sube el contrato que deseas verificar o compárteme el hash de blockchain para validar su autenticidad.');
+                    break;
+                case 'terminos':
+                    conversationContext.currentService = 'terms';
+                    addBotMessage('Pregúntame sobre cualquier término legal que no entiendas. Por ejemplo: "¿Qué significa FOB?" o "Explica CIF".');
+                    break;
+            }
+        }
+        
         function handleFileSelect(event) {
             const fileInput = event.target;
             const fileNameDisplay = document.getElementById('fileName');
@@ -608,109 +674,111 @@
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 currentFileName = file.name;
+                currentFileType = file.type;
                 fileNameDisplay.textContent = file.name;
                 fileNameDisplay.style.display = 'flex';
                 
                 // Add a message about the file
-                const fileMessageElement = document.createElement('div');
-                fileMessageElement.classList.add('message', 'user-message');
-                fileMessageElement.textContent = `Archivo adjunto: ${file.name}`;
-                document.getElementById('chatMessages').appendChild(fileMessageElement);
+                addUserMessage(`Archivo adjunto: ${file.name}`);
                 
-                // Simulate bot response
+                // Determine next steps based on conversation context
                 setTimeout(() => {
-                    const botMessageElement = document.createElement('div');
-                    botMessageElement.classList.add('message', 'bot-message');
-                    botMessageElement.innerHTML = `He recibido tu archivo <strong>${file.name}</strong>. ¿Quieres que lo traduzca o revise en algún idioma específico?`;
-                    
-                    // Add options
-                    const optionsContainer = document.createElement('div');
-                    optionsContainer.classList.add('options-container');
-                    
-                    const options = [
-                        { text: 'Inglés', action: 'processLanguageSelection("inglés")' },
-                        { text: 'Español', action: 'processLanguageSelection("español")' },
-                        { text: 'Chino mandarín', action: 'processLanguageSelection("chino mandarín")' }
-                    ];
-                    
-                    options.forEach(option => {
-                        const button = document.createElement('button');
-                        button.classList.add('option-button');
-                        button.textContent = option.text;
-                        button.onclick = function() {
-                            eval(option.action);
-                        };
-                        optionsContainer.appendChild(button);
-                    });
-                    
-                    botMessageElement.appendChild(optionsContainer);
-                    document.getElementById('chatMessages').appendChild(botMessageElement);
-                    
-                    // Set state to awaiting language choice
-                    awaitingLanguageChoice = true;
-                    
-                    // Scroll to bottom
-                    const chatMessages = document.getElementById('chatMessages');
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    if (conversationContext.currentService === 'translation') {
+                        askForTranslationPreferences();
+                    } else if (conversationContext.currentService === 'verification') {
+                        startVerificationProcess();
+                    } else {
+                        // Default to translation if no specific service selected
+                        askForTranslationPreferences();
+                    }
                 }, 1000);
-                
-                // Scroll to bottom
-                const chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
         
-        function processLanguageSelection(language) {
-            // Add user's language choice as a message
-            const userChoiceElement = document.createElement('div');
-            userChoiceElement.classList.add('message', 'user-message');
-            userChoiceElement.textContent = language.charAt(0).toUpperCase() + language.slice(1);
-            document.getElementById('chatMessages').appendChild(userChoiceElement);
+        function askForTranslationPreferences() {
+            addBotMessage(`He recibido tu archivo <strong>${currentFileName}</strong>. ¿A qué idioma necesitas traducirlo?`, [
+                { text: 'Español', action: 'processTranslationRequest("español")' },
+                { text: 'Inglés', action: 'processTranslationRequest("inglés")' },
+                { text: 'Chino mandarín', action: 'processTranslationRequest("chino mandarín")' }
+            ]);
+            conversationContext.awaitingLanguageChoice = true;
+        }
+        
+        function startVerificationProcess() {
+            addBotMessage(`He recibido tu contrato <strong>${currentFileName}</strong>. Comenzaré el proceso de verificación.`);
             
-            // Reset state
-            awaitingLanguageChoice = false;
-            
-            // Process the request
-            setTimeout(() => {
-                const botMessageElement = document.createElement('div');
-                botMessageElement.classList.add('message', 'bot-message');
-                
-                if (language.toLowerCase().includes('inglés') || language.toLowerCase() === 'english') {
-                    botMessageElement.innerHTML = `Perfecto. Comenzaré la traducción/revisión de <strong>${currentFileName}</strong> al inglés. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
-                } else if (language.toLowerCase().includes('español') || language.toLowerCase() === 'spanish') {
-                    botMessageElement.innerHTML = `Perfecto. Comenzaré la traducción/revisión de <strong>${currentFileName}</strong> al español. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
-                } else if (language.toLowerCase().includes('chino') || language.toLowerCase() === 'chinese') {
-                    botMessageElement.innerHTML = `Perfecto. Comenzaré la traducción/revisión de <strong>${currentFileName}</strong> al chino mandarín. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
-                } else {
-                    botMessageElement.innerHTML = `Procesaré tu archivo <strong>${currentFileName}</strong>. Esto puede tomar unos minutos...<br><br><i class="fas fa-spinner fa-spin"></i> Procesando...`;
-                }
-                
-                document.getElementById('chatMessages').appendChild(botMessageElement);
-                
-                // Scroll to bottom
-                const chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Simulate completion after a delay
-                setTimeout(() => {
-                    // Replace processing message with completion message
-                    const completionMessage = document.createElement('div');
-                    completionMessage.classList.add('message', 'bot-message');
-                    completionMessage.innerHTML = `¡Listo! He completado la traducción/revisión de <strong>${currentFileName}</strong> al ${language}. ¿Necesitas algo más?`;
-                    
-                    // Remove the processing message and add completion message
-                    chatMessages.removeChild(botMessageElement);
-                    chatMessages.appendChild(completionMessage);
-                    
-                    // Scroll to bottom
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 3000);
-                
-            }, 1000);
+            // Show processing message
+            const processingElement = document.createElement('div');
+            processingElement.classList.add('message', 'bot-message', 'processing');
+            processingElement.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Verificando autenticidad del documento...`;
+            document.getElementById('chatMessages').appendChild(processingElement);
             
             // Scroll to bottom
             const chatMessages = document.getElementById('chatMessages');
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Simulate verification process
+            setTimeout(() => {
+                // Remove processing message
+                chatMessages.removeChild(processingElement);
+                
+                // Simulate verification results (in a real scenario, this would be actual verification)
+                const isVerified = Math.random() > 0.3; // 70% chance of being verified
+                
+                if (isVerified) {
+                    addBotMessage(`✅ <strong>Verificación exitosa</strong><br>El contrato <strong>${currentFileName}</strong> ha sido verificado correctamente.<br><span class="verification-badge">Auténtico</span><br><br>Hash de verificación: <code>0x${generateRandomHash()}</code>`);
+                } else {
+                    addBotMessage(`❌ <strong>Problema de verificación</strong><br>He detectado algunas inconsistencias en el contrato <strong>${currentFileName}</strong>. Te recomiendo revisar:<br><br>- Las cláusulas 4.2 y 7.3 requieren atención<br>- La firma digital no coincide con los registros<br>- Faltan algunas páginas del anexo B`);
+                }
+                
+                addBotMessage('¿Necesitas ayuda con algo más?');
+            }, 3000);
+        }
+        
+        function processTranslationRequest(language) {
+            addUserMessage(language.charAt(0).toUpperCase() + language.slice(1));
+            
+            // Reset state
+            conversationContext.awaitingLanguageChoice = false;
+            
+            // Show processing message
+            const processingElement = document.createElement('div');
+            processingElement.classList.add('message', 'bot-message', 'processing');
+            processingElement.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Traduciendo ${currentFileName} al ${language}...`;
+            document.getElementById('chatMessages').appendChild(processingElement);
+            
+            // Scroll to bottom
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Simulate translation process
+            setTimeout(() => {
+                // Remove processing message
+                chatMessages.removeChild(processingElement);
+                
+                // Show completion message
+                addBotMessage(`¡Traducción completada! He traducido <strong>${currentFileName}</strong> al ${language}.<br><br>Puedes descargar el documento traducido <a href="#" style="color: #1565c0; text-decoration: underline;">aquí</a>.`);
+                
+                // Add some translation notes
+                addBotMessage(`<strong>Notas de traducción:</strong><br>- He conservado los términos técnicos en su idioma original cuando era apropiado<br>- Las referencias legales se han adaptado al sistema jurídico destino<br>- Los formatos de fecha y números se han localizado correctamente`);
+                
+                addBotMessage('¿Necesitas algo más?');
+            }, 4000);
+        }
+        
+        function explainLegalTerm(term) {
+            const termKey = term.toLowerCase();
+            
+            if (legalTerms[termKey]) {
+                const termInfo = legalTerms[termKey];
+                addBotMessage(`<strong>${term.toUpperCase()}</strong><br><br>` +
+                    `<strong>Español:</strong> ${termInfo.es}<br>` +
+                    `<strong>English:</strong> ${termInfo.en}<br>` +
+                    `<strong>中文:</strong> ${termInfo.zh}<br><br>` +
+                    `<strong>Ejemplos:</strong><br>• ${termInfo.examples[0]}<br>• ${termInfo.examples[1]}`);
+            } else {
+                addBotMessage(`No tengo información específica sobre "${term}". ¿Podrías proporcionar más contexto o verificar la ortografía?`);
+            }
         }
         
         function sendMessage() {
@@ -719,56 +787,101 @@
             
             if (message !== '') {
                 // Add user message
-                const userMessageElement = document.createElement('div');
-                userMessageElement.classList.add('message', 'user-message');
-                userMessageElement.textContent = message;
-                document.getElementById('chatMessages').appendChild(userMessageElement);
+                addUserMessage(message);
                 
                 // Clear input
                 userInput.value = '';
                 
-                // Process message based on current state
-                if (awaitingLanguageChoice) {
-                    // Assume the message is a language choice
-                    processLanguageSelection(message);
-                } else {
-                    // Default response
-                    simulateBotResponse(message);
-                }
-                
-                // Scroll to bottom
-                const chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                // Process message
+                processUserMessage(message);
             }
         }
         
-        function simulateBotResponse(message) {
-            // Simulate bot response
-            setTimeout(() => {
-                const botMessageElement = document.createElement('div');
-                botMessageElement.classList.add('message', 'bot-message');
-                
-                // Simple response logic
-                if (message.toLowerCase().includes('hola') || message.toLowerCase().includes('hi') || message.toLowerCase().includes('你好')) {
-                    botMessageElement.innerHTML = '¡Hola! ¿En qué puedo ayudarte con tus contratos internacionales?<br>Puedo ayudarte con traducción legal y revisión de documentos en inglés, español y chino mandarín.';
-                } else if (message.toLowerCase().includes('traduc') || message.toLowerCase().includes('translate')) {
-                    botMessageElement.innerHTML = 'Puedo traducir documentos legales entre:<br><br> - Inglés ↔ Español<br> - Inglés ↔ Chino mandarín<br> - Español ↔ Chino mandarín<br><br>¿Qué tipo de documento necesitas traducir?';
-                } else if (message.toLowerCase().includes('revisar') || message.toLowerCase().includes('review')) {
-                    botMessageElement.innerHTML = 'Puedo revisar contratos y documentos legales en:<br><br> - Inglés jurídico<br> - Español jurídico<br> - Chino mandarín jurídico<br><br>¿Qué documento te gustaría que revise?';
-                } else if (message.toLowerCase().includes('contrato') || message.toLowerCase().includes('contract')) {
-                    botMessageElement.innerHTML = 'Puedo ayudarte con contratos internacionales. ¿Necesitas traducción, revisión o asesoramiento sobre algún contrato en específico?';
-                } else if (message.toLowerCase().includes('gracias') || message.toLowerCase().includes('thank')) {
-                    botMessageElement.innerHTML = '¡De nada! Estoy aquí para ayudarte. No dudes en preguntar si necesitas más asistencia con tus documentos internacionales. 😊';
+        function processUserMessage(message) {
+            // Check if we're waiting for language choice
+            if (conversationContext.awaitingLanguageChoice) {
+                if (message.toLowerCase().includes('español') || message.toLowerCase().includes('spanish')) {
+                    processTranslationRequest('español');
+                } else if (message.toLowerCase().includes('inglés') || message.toLowerCase().includes('english')) {
+                    processTranslationRequest('inglés');
+                } else if (message.toLowerCase().includes('chino') || message.toLowerCase().includes('chinese') || message.toLowerCase().includes('mandarín') || message.toLowerCase().includes('mandarin')) {
+                    processTranslationRequest('chino mandarín');
                 } else {
-                    botMessageElement.innerHTML = 'Gracias por tu mensaje. Como asistente de contratos internacionales, puedo ayudarte con:<br><br> - Traducción legal (inglés, español, chino)<br> - Revisión de documentos<br> - Análisis de contratos internacionales<br><br>¿En qué te puedo asistir?';
+                    addBotMessage('No entendí tu elección de idioma. Por favor selecciona entre: Español, Inglés o Chino mandarín.');
                 }
+                return;
+            }
+            
+            // Check if user is asking about a legal term
+            const termMatch = message.match(/(?:qué es|qué significa|explique|explica|what is|what does|define)\s+([a-zA-Záéíóúñü]+)/i);
+            if (termMatch) {
+                const term = termMatch[1];
+                explainLegalTerm(term);
+                return;
+            }
+            
+            // Check for greeting
+            if (message.match(/(hola|hi|hello|buenos días|buenas tardes|你好)/i)) {
+                addBotMessage('¡Hola! ¿En qué puedo ayudarte con tus contratos internacionales hoy?');
+                return;
+            }
+            
+            // Check for thanks
+            if (message.match(/(gracias|thank you|thanks|谢谢)/i)) {
+                addBotMessage('¡De nada! Estoy aquí para ayudarte. ¿Necesitas asistencia con algo más?');
+                return;
+            }
+            
+            // Default response
+            addBotMessage('Puedo ayudarte con:<br><br>' +
+                '- Traducción de documentos legales<br>' +
+                '- Verificación de autenticidad de contratos<br>' +
+                '- Explicación de términos legales<br><br>' +
+                '¿En qué te puedo asistir?');
+        }
+        
+        function addUserMessage(message) {
+            const userMessageElement = document.createElement('div');
+            userMessageElement.classList.add('message', 'user-message');
+            userMessageElement.textContent = message;
+            document.getElementById('chatMessages').appendChild(userMessageElement);
+            
+            // Scroll to bottom
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function addBotMessage(message, options = null) {
+            const botMessageElement = document.createElement('div');
+            botMessageElement.classList.add('message', 'bot-message');
+            botMessageElement.innerHTML = message;
+            
+            if (options && options.length > 0) {
+                const optionsContainer = document.createElement('div');
+                optionsContainer.classList.add('options-container');
                 
-                document.getElementById('chatMessages').appendChild(botMessageElement);
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.classList.add('option-button');
+                    button.innerHTML = option.text;
+                    button.onclick = function() {
+                        eval(option.action);
+                    };
+                    optionsContainer.appendChild(button);
+                });
                 
-                // Scroll to bottom
-                const chatMessages = document.getElementById('chatMessages');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000);
+                botMessageElement.appendChild(optionsContainer);
+            }
+            
+            document.getElementById('chatMessages').appendChild(botMessageElement);
+            
+            // Scroll to bottom
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function generateRandomHash() {
+            return Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join('');
         }
         
         // Initialize with animation
